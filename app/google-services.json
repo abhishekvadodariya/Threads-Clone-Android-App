@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926460023645",
+    "project_id": "thread-fc5e4",
+    "storage_bucket": "thread-fc5e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926460023645:android:3cc4b3bf5559d08e590eb4",
+        "android_client_info": {
+          "package_name": "com.tech.threadsclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADvRnsEwfQZr1qpBQcYtH3cHwCn117VHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
