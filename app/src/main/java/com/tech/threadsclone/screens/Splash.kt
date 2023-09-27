@@ -12,18 +12,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import com.tech.threadsclone.R
 import com.tech.threadsclone.navigation.Routes
 import kotlinx.coroutines.delay
 
 @Composable
-fun Splash(navHostController: NavHostController){
-    
+fun Splash(splashNavHostController: NavHostController) {
+
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
         val (image) = createRefs()
         Image(painter = painterResource(id = R.drawable.logo), contentDescription = "logo",
-            modifier = Modifier.constrainAs(image){
+            modifier = Modifier.constrainAs(image) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
@@ -31,9 +32,19 @@ fun Splash(navHostController: NavHostController){
             })
     }
 
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         delay(3000)
-        navHostController.navigate(Routes.BottomNav.routes)
+
+        if (FirebaseAuth.getInstance().currentUser != null)
+            splashNavHostController.navigate(Routes.BottomNav.routes) {
+                popUpTo(splashNavHostController.graph.startDestinationId)
+                launchSingleTop = true
+            }
+        else
+            splashNavHostController.navigate(Routes.Login.routes) {
+                popUpTo(splashNavHostController.graph.startDestinationId)
+                launchSingleTop = true
+            }
     }
 
 
