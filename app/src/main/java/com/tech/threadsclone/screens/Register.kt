@@ -48,7 +48,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
-import com.tech.threadsclone.Manifest
 import com.tech.threadsclone.R
 import com.tech.threadsclone.navigation.Routes
 import com.tech.threadsclone.viewModel.AuthViewModel

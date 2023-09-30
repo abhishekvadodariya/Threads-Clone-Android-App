@@ -148,7 +148,6 @@ fun Login(loginNavHostController: NavHostController) {
             )
         }
     }
-
 }
 
 @Preview(showBackground = true)
