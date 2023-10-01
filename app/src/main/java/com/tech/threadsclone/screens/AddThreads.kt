@@ -65,6 +65,18 @@ fun AddThreads() {
                     top.linkTo(text.bottom)
                     start.linkTo(parent.start)
                 })
+
+        Text(
+            text = "userName", style = TextStyle(
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                color = Color.Black
+            ), modifier = Modifier.constrainAs(userName) {
+                top.linkTo(crossPic.top)
+                start.linkTo(crossPic.end, margin = 12.dp)
+                bottom.linkTo(crossPic.bottom)
+            }
+        )
     }
 }
 
