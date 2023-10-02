@@ -2,8 +2,11 @@ package com.tech.threadsclone.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.tech.threadsclone.R
 import com.tech.threadsclone.utils.SharedPrefrence
+import io.grpc.okhttp.internal.Util
 
 @Composable
 fun AddThreads() {
@@ -61,22 +65,44 @@ fun AddThreads() {
             painter = rememberAsyncImagePainter(model = SharedPrefrence.getImageUrl(context)),
             contentDescription = "logo",
             modifier = Modifier
-                .constrainAs(crossPic) {
+                .constrainAs(logo) {
                     top.linkTo(text.bottom)
                     start.linkTo(parent.start)
                 })
 
         Text(
-            text = "userName", style = TextStyle(
-                fontWeight = FontWeight.Medium,
-                fontSize = 16.sp,
+            text = SharedPrefrence.getUserName(context), style = TextStyle(
+                fontSize = 20.sp,
                 color = Color.Black
             ), modifier = Modifier.constrainAs(userName) {
-                top.linkTo(crossPic.top)
-                start.linkTo(crossPic.end, margin = 12.dp)
-                bottom.linkTo(crossPic.bottom)
+                top.linkTo(logo.top)
+                start.linkTo(logo.end, margin = 12.dp)
+                bottom.linkTo(logo.bottom)
             }
         )
+    }
+}
+
+@Composable
+fun BasicTextFieldWithHint(
+    hint: String,
+    value: String,
+    onValueChnage: (String) -> Unit,
+    modifier: Modifier
+) {
+    Box(modifier = modifier) {
+        if (value.isEmpty()) {
+            Text(text = hint, color = Color.Gray)
+        }
+
+        /*BasicTextField(
+            value = value,
+            onValueChnage = onValueChnage,
+            textStyle = TextStyle.Default.copy(color = Color.Black),
+            modifier = modifier.fillMaxWidth()
+        ) {
+
+        }*/
     }
 }
 
