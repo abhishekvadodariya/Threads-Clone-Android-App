@@ -42,7 +42,7 @@ fun BottomNav(navController: NavHostController) {
                 Serach()
             }
             composable(route = Routes.AddThreads.routes){
-                AddThreads()
+                AddThreads(navControllerBottom)
             }
             composable(route = Routes.Profile.routes){
                 Profile(navController)
