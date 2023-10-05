@@ -180,7 +180,7 @@ fun AddThreads(addThreadsNavHostController: NavHostController) {
         if (imageUri == null) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_attachment_24),
-                contentDescription = "Close",
+                contentDescription = "Attach",
                 modifier = Modifier
                     .constrainAs(attachMedia) {
                         top.linkTo(editText.top)
@@ -235,8 +235,8 @@ fun AddThreads(addThreadsNavHostController: NavHostController) {
                 fontSize = 20.sp,
                 color = Color.Black
             ), modifier = Modifier.constrainAs(replayText) {
-                start.linkTo(parent.start, margin = 12.dp)
-                bottom.linkTo(parent.bottom, margin = 12.dp)
+                start.linkTo(parent.start, margin = 8.dp)
+                bottom.linkTo(parent.bottom, margin = 8.dp)
             }
         )
 
@@ -253,8 +253,8 @@ fun AddThreads(addThreadsNavHostController: NavHostController) {
             }
 
         }, modifier = Modifier.constrainAs(button) {
-            end.linkTo(parent.end, margin = 12.dp)
-            bottom.linkTo(parent.bottom, margin = 12.dp)
+            end.linkTo(parent.end, margin = 8.dp)
+            bottom.linkTo(parent.bottom, margin = 8.dp)
         }) {
             Text(
                 text = "Post", style = TextStyle(

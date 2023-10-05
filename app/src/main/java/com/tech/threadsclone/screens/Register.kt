@@ -83,31 +83,32 @@ fun Register(registerNavHostController: NavHostController) {
     val authViewModel: AuthViewModel = viewModel()
     val firebaseUser by authViewModel.firebaseUser.observeAsState(null)
 
-    val permissionToRequest = if (Build.VERSION.SDK_INT>Build.VERSION_CODES.TIRAMISU){
+    val permissionToRequest = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
         android.Manifest.permission.READ_MEDIA_IMAGES
-    }else{
+    } else {
         android.Manifest.permission.READ_EXTERNAL_STORAGE
     }
 
     val context = LocalContext.current
 
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()){
-        uri: Uri? ->
-        imageUri = uri
-    }
-    
-    val permissionlauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()){
-
-        isGranted : Boolean ->
-        if (isGranted){
-
-        }else{
-
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            imageUri = uri
         }
-    }
 
-    LaunchedEffect(firebaseUser){
-        if (firebaseUser!=null){
+    val permissionlauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
+
+                isGranted: Boolean ->
+            if (isGranted) {
+
+            } else {
+
+            }
+        }
+
+    LaunchedEffect(firebaseUser) {
+        if (firebaseUser != null) {
             registerNavHostController.navigate(Routes.BottomNav.routes) {
                 popUpTo(registerNavHostController.graph.startDestinationId)
                 launchSingleTop = true
@@ -132,7 +133,8 @@ fun Register(registerNavHostController: NavHostController) {
 
         Box(modifier = Modifier.height(25.dp))
 
-        Image(painter = if(imageUri == null) painterResource(id = R.drawable.user)
+        Image(
+            painter = if (imageUri == null) painterResource(id = R.drawable.user)
             else rememberAsyncImagePainter(model = imageUri), contentDescription = "Profile",
             modifier = Modifier
                 .size(96.dp)
@@ -204,14 +206,14 @@ fun Register(registerNavHostController: NavHostController) {
         Box(modifier = Modifier.height(24.dp))
 
         ElevatedButton(onClick = {
-            if(name.isEmpty()||email.isEmpty()||password.isEmpty()||userName.isEmpty()||bio.isEmpty()||imageUri == null){
-                    Toast.makeText(context,"Please fill all details", Toast.LENGTH_LONG).show()
-            }else{
-                authViewModel.register(email, password, name, bio, userName, imageUri!!,context)
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || userName.isEmpty() || bio.isEmpty() || imageUri == null) {
+                Toast.makeText(context, "Please fill all details", Toast.LENGTH_LONG).show()
+            } else {
+                authViewModel.register(email, password, name, bio, userName, imageUri!!, context)
             }
         }, modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "Login", style = TextStyle(
+                text = "Register", style = TextStyle(
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp,
                     color = Color.Black

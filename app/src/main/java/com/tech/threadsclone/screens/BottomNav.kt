@@ -29,22 +29,24 @@ import com.tech.threadsclone.navigation.Routes
 fun BottomNav(navController: NavHostController) {
     val navControllerBottom: NavHostController = rememberNavController()
 
-    Scaffold(bottomBar ={MyBottomBar(navControllerBottom)}) { innerPadding ->
-        NavHost(navController = navControllerBottom, startDestination = Routes.Home.routes,
-            modifier = Modifier.padding(innerPadding)){
-            composable(route = Routes.Home.routes){
+    Scaffold(bottomBar = { MyBottomBar(navControllerBottom) }) { innerPadding ->
+        NavHost(
+            navController = navControllerBottom, startDestination = Routes.Home.routes,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(route = Routes.Home.routes) {
                 Home()
             }
-            composable(route = Routes.Notification.routes){
+            composable(route = Routes.Notification.routes) {
                 Notification()
             }
-            composable(route = Routes.Search.routes){
+            composable(route = Routes.Search.routes) {
                 Serach()
             }
-            composable(route = Routes.AddThreads.routes){
+            composable(route = Routes.AddThreads.routes) {
                 AddThreads(navControllerBottom)
             }
-            composable(route = Routes.Profile.routes){
+            composable(route = Routes.Profile.routes) {
                 Profile(navController)
             }
         }
@@ -69,12 +71,14 @@ fun MyBottomBar(navControllerBottom: NavHostController) {
         list.forEach {
             val selected: Boolean = it.route == backStackEntry.value?.destination?.route
 
-            NavigationBarItem(selected = selected, onClick = {navControllerBottom.navigate(it.route){
-                popUpTo(navControllerBottom.graph.findStartDestination().id){
-                    saveState = true
+            NavigationBarItem(selected = selected, onClick = {
+                navControllerBottom.navigate(it.route) {
+                    popUpTo(navControllerBottom.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
                 }
-                launchSingleTop = true
-            } }, icon = {
+            }, icon = {
                 Icon(imageVector = it.icon, contentDescription = it.title)
             })
         }

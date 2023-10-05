@@ -24,12 +24,15 @@ fun Splash(splashNavHostController: NavHostController) {
 
         val (image) = createRefs()
         Image(painter = painterResource(id = R.drawable.logo), contentDescription = "logo",
-            modifier = Modifier.constrainAs(image) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            })
+            modifier = Modifier
+                .constrainAs(image) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .size(100.dp)
+        )
     }
 
     LaunchedEffect(true) {
