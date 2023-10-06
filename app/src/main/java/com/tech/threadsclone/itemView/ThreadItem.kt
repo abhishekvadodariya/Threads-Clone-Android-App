@@ -22,12 +22,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.tech.threadsclone.R
+import com.tech.threadsclone.model.ThreadModel
+import com.tech.threadsclone.model.UserModel
 import com.tech.threadsclone.utils.SharedPrefrence
 
 @Composable
-fun ThreadItem() {
+fun ThreadItem(
+    thread: ThreadModel,
+    users: UserModel,
+    threadItemNavHostController: NavHostController,
+    userId:String
+) {
 
     val contect = LocalContext.current
 
@@ -86,5 +94,5 @@ fun ThreadItem() {
 @Preview(showBackground = true)
 @Composable
 fun ShowThreadItem() {
-    ThreadItem()
+    //ThreadItem()
 }
