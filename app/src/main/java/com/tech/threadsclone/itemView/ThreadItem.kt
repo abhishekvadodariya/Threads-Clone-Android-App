@@ -1,6 +1,7 @@
 package com.tech.threadsclone.itemView
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,56 +41,63 @@ fun ThreadItem(
 
     val contect = LocalContext.current
 
-
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        val (userImage, userName, date, time, title, image) = createRefs()
-
-        Image(painter = rememberAsyncImagePainter(model = SharedPrefrence.getImageUrl(contect)),
-            contentDescription = "logo",
+    Column {
+        ConstraintLayout(
             modifier = Modifier
-                .constrainAs(userImage) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
-                .size(36.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop)
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            val (userImage, userName, date, time, title, image) = createRefs()
 
-        Text(text = "User Name", style = TextStyle(
-            fontSize = 20.sp,
-        ), modifier = Modifier.constrainAs(userName) {
-            top.linkTo(userImage.top)
-            start.linkTo(userImage.end, margin = 12.dp)
-            bottom.linkTo(userImage.bottom)
-        })
-
-        Text(text = "Title", style = TextStyle(
-            fontSize = 16.sp,
-        ), modifier = Modifier.constrainAs(title) {
-            top.linkTo(userName.bottom, margin = 8.dp)
-            start.linkTo(userName.start)
-        })
-
-        Card(modifier = Modifier
-            .constrainAs(image) {
-                top.linkTo(title.bottom, margin = 8.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }) {
-            Image(
-                painter = painterResource(id = R.drawable.user),
+            Image(painter = rememberAsyncImagePainter(model = users.imageUrl),
                 contentDescription = "logo",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-                contentScale = ContentScale.Crop
-            )
+                    .constrainAs(userImage) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                    }
+                    .size(36.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop)
+
+            Text(text = users.userName, style = TextStyle(
+                fontSize = 20.sp,
+            ), modifier = Modifier.constrainAs(userName) {
+                top.linkTo(userImage.top)
+                start.linkTo(userImage.end, margin = 12.dp)
+                bottom.linkTo(userImage.bottom)
+            })
+
+            Text(text = thread.thread, style = TextStyle(
+                fontSize = 16.sp,
+            ), modifier = Modifier.constrainAs(title) {
+                top.linkTo(userName.bottom, margin = 8.dp)
+                start.linkTo(userName.start)
+            })
+
+            if (thread.image != ""){
+                Card(modifier = Modifier
+                    .constrainAs(image) {
+                        top.linkTo(title.bottom, margin = 8.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }) {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = thread.image),
+                        contentDescription = "logo",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
         }
     }
+
+    Divider(color = Color.LightGray, thickness = 1.dp)
+
+
 }
 
 @Preview(showBackground = true)

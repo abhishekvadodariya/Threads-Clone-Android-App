@@ -25,8 +25,14 @@ class HomeViewModel : ViewModel() {
     private val fdb: FirebaseDatabase = FirebaseDatabase.getInstance()
     val thread: DatabaseReference = fdb.getReference("threads")
 
-    private val _threadsAndUsers = MutableLiveData<List<Pair<ThreadModel,UserModel>>>()
+    private var _threadsAndUsers = MutableLiveData<List<Pair<ThreadModel,UserModel>>>()
     val threadsAndUsers: LiveData<List<Pair<ThreadModel,UserModel>>> = _threadsAndUsers
+
+    init {
+        fetchThreadsAndUsers {
+            _threadsAndUsers.value = it
+        }
+    }
 
     private fun fetchThreadsAndUsers(onResult: (List<Pair<ThreadModel,UserModel>>) -> Unit){
         thread.addValueEventListener(object : ValueEventListener{
@@ -54,7 +60,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun fetchUserFromThreads(thread: ThreadModel, onResult:(UserModel) -> Unit){
-        fdb.getReference("threads").child(thread.userId)
+        fdb.getReference("users").child(thread.userId)
             .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(UserModel::class.java)
