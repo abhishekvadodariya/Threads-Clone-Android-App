@@ -39,7 +39,7 @@ fun ThreadItem(
     userId:String
 ) {
 
-    val contect = LocalContext.current
+    val context = LocalContext.current
 
     Column {
         ConstraintLayout(

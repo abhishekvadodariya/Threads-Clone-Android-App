@@ -36,7 +36,7 @@ fun UserItem(
     users: UserModel,
     threadItemNavHostController: NavHostController
 ) {
-    val contect = LocalContext.current
+    val context = LocalContext.current
     Column {
         ConstraintLayout(
             modifier = Modifier
@@ -61,13 +61,12 @@ fun UserItem(
             ), modifier = Modifier.constrainAs(userName) {
                 top.linkTo(userImage.top)
                 start.linkTo(userImage.end, margin = 12.dp)
-                bottom.linkTo(userImage.bottom)
             })
 
             Text(text = users.name, style = TextStyle(
                 fontSize = 16.sp,
             ), modifier = Modifier.constrainAs(title) {
-                top.linkTo(userName.bottom, margin = 8.dp)
+                top.linkTo(userName.bottom, margin = 2.dp)
                 start.linkTo(userName.start)
             })
         }

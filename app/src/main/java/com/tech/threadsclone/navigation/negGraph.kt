@@ -1,8 +1,6 @@
 package com.tech.threadsclone.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +11,7 @@ import com.tech.threadsclone.screens.Login
 import com.tech.threadsclone.screens.Notification
 import com.tech.threadsclone.screens.Profile
 import com.tech.threadsclone.screens.Register
-import com.tech.threadsclone.screens.Serach
+import com.tech.threadsclone.screens.Search
 import com.tech.threadsclone.screens.Splash
 
 @Composable
@@ -46,7 +44,7 @@ fun NavGraph(navController: NavHostController){
         }
 
         composable(Routes.Search.routes){
-            Serach()
+            Search(navController)
         }
 
         composable(Routes.Login.routes){
