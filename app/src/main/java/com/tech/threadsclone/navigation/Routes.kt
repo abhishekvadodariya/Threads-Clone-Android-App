@@ -10,4 +10,5 @@ sealed class Routes(val routes: String){
     object Splash: Routes("Splash")
     object Login: Routes("Login")
     object Register: Routes("Register")
+    object OtherUsers: Routes("other_users/{data}")
 }

@@ -1,48 +1,32 @@
 package com.tech.threadsclone.screens
 
-import android.content.pm.PackageManager
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.tech.threadsclone.R
 import com.tech.threadsclone.itemView.ThreadItem
 import com.tech.threadsclone.model.UserModel
 import com.tech.threadsclone.navigation.Routes
@@ -50,8 +34,10 @@ import com.tech.threadsclone.utils.SharedPrefrence
 import com.tech.threadsclone.viewModel.AuthViewModel
 import com.tech.threadsclone.viewModel.UserViewModel
 
+
 @Composable
-fun Profile(profileNavHostController: NavHostController) {
+fun OtherUsers(otherUserNavHostController: NavHostController, uid: String) {
+
 
     val authViewModel: AuthViewModel = viewModel()
     val firebaseUser by authViewModel.firebaseUser.observeAsState(null)
@@ -60,8 +46,16 @@ fun Profile(profileNavHostController: NavHostController) {
 
     val userViewModel: UserViewModel = viewModel()
     val threads by userViewModel.threads.observeAsState(null)
+    val users by userViewModel.users.observeAsState(null)
+
     val followerList by userViewModel.followerList.observeAsState(null)
     val followingList by userViewModel.followingList.observeAsState(null)
+
+    userViewModel.fetchThreads(uid)
+    userViewModel.fetchUser(uid)
+
+    userViewModel.getFollowers(uid)
+    userViewModel.getFollowing(uid)
 
     var currentUserId = ""
 
@@ -69,27 +63,10 @@ fun Profile(profileNavHostController: NavHostController) {
         currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
     }
 
-    if (currentUserId != null){
-        userViewModel.getFollowers(currentUserId)
-        userViewModel.getFollowing(currentUserId)
-    }
-
-
-    val user = UserModel(
-        name = SharedPrefrence.getName(context),
-        userName = SharedPrefrence.getUserName(context),
-        imageUrl = SharedPrefrence.getImageUrl(context)
-    )
-    
-    if (firebaseUser != null){
-        userViewModel.fetchThreads(firebaseUser!!.uid)
-    }
-
-
     LaunchedEffect(firebaseUser) {
         if (firebaseUser != null) {
-            profileNavHostController.navigate(Routes.Login.routes) {
-                popUpTo(profileNavHostController.graph.startDestinationId)
+            otherUserNavHostController.navigate(Routes.Login.routes) {
+                popUpTo(otherUserNavHostController.graph.startDestinationId)
                 launchSingleTop = true
             }
         }
@@ -106,7 +83,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 val (text, logo, userName, bio, followers, following, logoutBtn) = createRefs()
 
                 Text(
-                    text = SharedPrefrence.getName(context), style = TextStyle(
+                    text = users!!.name, style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp,
                         color = Color.Black
@@ -117,7 +94,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 Image(
-                    painter = rememberAsyncImagePainter(model = SharedPrefrence.getImageUrl(context)),
+                    painter = rememberAsyncImagePainter(users!!.imageUrl),
                     contentDescription = "profile Picture",
                     modifier = Modifier
                         .constrainAs(logo) {
@@ -129,7 +106,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 Text(
-                    text = SharedPrefrence.getUserName(context), style = TextStyle(
+                    text = users!!.userName, style = TextStyle(
                         fontSize = 20.sp,
                         color = Color.Black
                     ), modifier = Modifier.constrainAs(userName) {
@@ -139,7 +116,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 Text(
-                    text = SharedPrefrence.getBio(context), style = TextStyle(
+                    text = users!!.bio, style = TextStyle(
                         fontSize = 20.sp,
                         color = Color.Black
                     ), modifier = Modifier.constrainAs(bio) {
@@ -159,7 +136,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 Text(
-                    text =  "${followingList!!.size} Following", style = TextStyle(
+                    text = "${followingList!!.size} Following", style = TextStyle(
                         fontSize = 20.sp,
                         color = Color.Black
                     ), modifier = Modifier.constrainAs(following) {
@@ -169,22 +146,34 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 ElevatedButton(onClick = {
-                    authViewModel.logout()
-                }, modifier = Modifier.constrainAs(logoutBtn){
+                    if (currentUserId != "") {
+                        userViewModel.followUser(uid, currentUserId)
+                    }
+
+                }, modifier = Modifier.constrainAs(logoutBtn) {
                     top.linkTo(following.bottom)
                     start.linkTo(parent.start)
                 }) {
-                    Text(text = "Logout")
+                    Text(
+                        text = if (followerList != null && followerList!!.isNotEmpty() && followerList!!.contains(
+                                currentUserId
+                            )
+                        ) "Following" else "Follow"
+                    )
                 }
             }
         }
-        items(threads ?: emptyList()) { pair ->
-            ThreadItem(
-                thread = pair,
-                users = user,
-                threadItemNavHostController = profileNavHostController,
-                userId = FirebaseAuth.getInstance().currentUser!!.uid
-            )
+
+        if (threads != null && users != null) {
+            items(threads ?: emptyList()) { pair ->
+                ThreadItem(
+                    thread = pair,
+                    users = users!!,
+                    threadItemNavHostController = otherUserNavHostController,
+                    userId = FirebaseAuth.getInstance().currentUser!!.uid
+                )
+            }
         }
     }
+
 }

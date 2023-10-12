@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.tech.threadsclone.model.UserModel
@@ -109,6 +110,15 @@ class AuthViewModel : ViewModel() {
         uid: String?,
         context: Context
     ) {
+
+        val firebaseDb = Firebase.firestore
+        val followersRef = firebaseDb.collection("followers").document(uid!!)
+        val followingRef = firebaseDb.collection("following").document(uid!!)
+
+        followingRef.set(mapOf("followingIds" to listOf<String>()))
+        followersRef.set(mapOf("followerIds" to listOf<String>()))
+
+
         val uploadTask = imageRef.putFile(imageUri)
         uploadTask.addOnSuccessListener {
             imageRef.downloadUrl.addOnSuccessListener {

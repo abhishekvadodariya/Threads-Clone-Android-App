@@ -9,6 +9,7 @@ import com.tech.threadsclone.screens.BottomNav
 import com.tech.threadsclone.screens.Home
 import com.tech.threadsclone.screens.Login
 import com.tech.threadsclone.screens.Notification
+import com.tech.threadsclone.screens.OtherUsers
 import com.tech.threadsclone.screens.Profile
 import com.tech.threadsclone.screens.Register
 import com.tech.threadsclone.screens.Search
@@ -53,6 +54,11 @@ fun NavGraph(navController: NavHostController){
 
         composable(Routes.Register.routes){
             Register(navController)
+        }
+
+        composable(Routes.OtherUsers.routes){
+            val data:String? = it.arguments!!.getString("data")
+            OtherUsers(navController,data!!)
         }
     }
 }

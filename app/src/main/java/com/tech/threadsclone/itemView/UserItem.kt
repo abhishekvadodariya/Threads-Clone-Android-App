@@ -1,6 +1,7 @@
 package com.tech.threadsclone.itemView
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.tech.threadsclone.R
 import com.tech.threadsclone.model.ThreadModel
 import com.tech.threadsclone.model.UserModel
+import com.tech.threadsclone.navigation.Routes
 import com.tech.threadsclone.utils.SharedPrefrence
+import okhttp3.Route
 
 @Composable
 fun UserItem(
@@ -41,7 +44,10 @@ fun UserItem(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp).clickable {
+                    val routes = Routes.OtherUsers.routes.replace("{data}",users.uid)
+                    threadItemNavHostController.navigate(routes)
+                }
         ) {
             val (userImage, userName, date, time, title, image) = createRefs()
 
