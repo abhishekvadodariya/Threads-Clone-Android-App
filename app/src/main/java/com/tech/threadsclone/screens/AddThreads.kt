@@ -251,7 +251,6 @@ fun AddThreads(addThreadsNavHostController: NavHostController) {
                     imageUri!!
                 )
             }
-
         }, modifier = Modifier.constrainAs(button) {
             end.linkTo(parent.end, margin = 8.dp)
             bottom.linkTo(parent.bottom, margin = 8.dp)
@@ -263,7 +262,6 @@ fun AddThreads(addThreadsNavHostController: NavHostController) {
                 )
             )
         }
-
     }
 }
 
@@ -286,10 +284,4 @@ fun BasicTextFieldWithHint(
             modifier = modifier.fillMaxWidth()
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AddPostView() {
-    //AddThreads()
 }

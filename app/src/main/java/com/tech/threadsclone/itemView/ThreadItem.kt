@@ -36,7 +36,7 @@ fun ThreadItem(
     thread: ThreadModel,
     users: UserModel,
     threadItemNavHostController: NavHostController,
-    userId:String
+    userId: String
 ) {
 
     val context = LocalContext.current
@@ -75,7 +75,7 @@ fun ThreadItem(
                 start.linkTo(userName.start)
             })
 
-            if (thread.image != ""){
+            if (thread.image != "") {
                 Card(modifier = Modifier
                     .constrainAs(image) {
                         top.linkTo(title.bottom, margin = 8.dp)
@@ -94,10 +94,7 @@ fun ThreadItem(
             }
         }
     }
-
     Divider(color = Color.LightGray, thickness = 1.dp)
-
-
 }
 
 @Preview(showBackground = true)

@@ -30,19 +30,19 @@ class UserViewModel : ViewModel() {
     val userRef: DatabaseReference = fdb.getReference("users")
 
     private val _threads = MutableLiveData(listOf<ThreadModel>())
-    val threads : LiveData<List<ThreadModel>> get() = _threads
+    val threads: LiveData<List<ThreadModel>> get() = _threads
 
     private val _followerList = MutableLiveData(listOf<String>())
-    val followerList : LiveData<List<String>> get() = _followerList
+    val followerList: LiveData<List<String>> get() = _followerList
 
     private val _followingList = MutableLiveData(listOf<String>())
-    val followingList : LiveData<List<String>> get() = _followingList
+    val followingList: LiveData<List<String>> get() = _followingList
 
     private val _users = MutableLiveData(UserModel())
-    val users : LiveData<UserModel> get() = _users
+    val users: LiveData<UserModel> get() = _users
 
-    fun fetchUser(uid:String){
-        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener{
+    fun fetchUser(uid: String) {
+        userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(UserModel::class.java)
                 _users.postValue(user)
@@ -55,44 +55,44 @@ class UserViewModel : ViewModel() {
         })
     }
 
-    fun fetchThreads(uid:String){
-        threadRef.orderByChild("userId").equalTo(uid).addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val threadList = snapshot.children.mapNotNull {
-                    it.getValue(ThreadModel::class.java)
+    fun fetchThreads(uid: String) {
+        threadRef.orderByChild("userId").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val threadList = snapshot.children.mapNotNull {
+                        it.getValue(ThreadModel::class.java)
+                    }
+                    _threads.postValue(threadList)
                 }
-                _threads.postValue(threadList)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-        })
+            })
     }
 
-    fun followUser(userId:String, currentUserId:String){
+    fun followUser(userId: String, currentUserId: String) {
         val ref = firebaseDb.collection("following").document(currentUserId)
         val followerRef = firebaseDb.collection("follower").document(userId)
 
-        ref.update("followingIds",FieldValue.arrayUnion(userId))
-        followerRef.update("followerIds",FieldValue.arrayUnion(currentUserId))
+        ref.update("followingIds", FieldValue.arrayUnion(userId))
+        followerRef.update("followerIds", FieldValue.arrayUnion(currentUserId))
     }
 
-    fun getFollowers(userId: String){
+    fun getFollowers(userId: String) {
         firebaseDb.collection("follower").document(userId)
             .addSnapshotListener { value, error ->
-                val followerIds = value?.get("followerIds") as? List<String>?: listOf()
+                val followerIds = value?.get("followerIds") as? List<String> ?: listOf()
                 _followerList.postValue(followerIds)
             }
     }
 
-    fun getFollowing(userId: String){
+    fun getFollowing(userId: String) {
         firebaseDb.collection("following").document(userId)
             .addSnapshotListener { value, error ->
-                val followingIds = value?.get("followingIds") as? List<String>?: listOf()
+                val followingIds = value?.get("followingIds") as? List<String> ?: listOf()
                 _followingList.postValue(followingIds)
             }
     }
-
 }

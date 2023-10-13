@@ -239,10 +239,3 @@ fun Register(registerNavHostController: NavHostController) {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun RegisterView() {
-    //Register()
-}
-

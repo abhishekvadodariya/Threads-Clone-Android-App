@@ -69,22 +69,20 @@ fun Profile(profileNavHostController: NavHostController) {
         currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
     }
 
-    if (currentUserId != null){
+    if (currentUserId != null) {
         userViewModel.getFollowers(currentUserId)
         userViewModel.getFollowing(currentUserId)
     }
-
 
     val user = UserModel(
         name = SharedPrefrence.getName(context),
         userName = SharedPrefrence.getUserName(context),
         imageUrl = SharedPrefrence.getImageUrl(context)
     )
-    
-    if (firebaseUser != null){
+
+    if (firebaseUser != null) {
         userViewModel.fetchThreads(firebaseUser!!.uid)
     }
-
 
     LaunchedEffect(firebaseUser) {
         if (firebaseUser != null) {
@@ -159,7 +157,7 @@ fun Profile(profileNavHostController: NavHostController) {
                 )
 
                 Text(
-                    text =  "${followingList!!.size} Following", style = TextStyle(
+                    text = "${followingList!!.size} Following", style = TextStyle(
                         fontSize = 20.sp,
                         color = Color.Black
                     ), modifier = Modifier.constrainAs(following) {
@@ -170,7 +168,7 @@ fun Profile(profileNavHostController: NavHostController) {
 
                 ElevatedButton(onClick = {
                     authViewModel.logout()
-                }, modifier = Modifier.constrainAs(logoutBtn){
+                }, modifier = Modifier.constrainAs(logoutBtn) {
                     top.linkTo(following.bottom)
                     start.linkTo(parent.start)
                 }) {

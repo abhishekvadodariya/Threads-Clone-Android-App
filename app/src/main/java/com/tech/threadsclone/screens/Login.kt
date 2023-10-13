@@ -42,13 +42,13 @@ import kotlin.math.log
 @Composable
 fun Login(loginNavHostController: NavHostController) {
 
-    val authViewModel:AuthViewModel = viewModel()
+    val authViewModel: AuthViewModel = viewModel()
     val firebaseUser by authViewModel.firebaseUser.observeAsState()
     val error by authViewModel.error.observeAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(firebaseUser){
-        if (firebaseUser!=null){
+    LaunchedEffect(firebaseUser) {
+        if (firebaseUser != null) {
             loginNavHostController.navigate(Routes.BottomNav.routes) {
                 popUpTo(loginNavHostController.graph.startDestinationId)
                 launchSingleTop = true
@@ -56,8 +56,8 @@ fun Login(loginNavHostController: NavHostController) {
         }
     }
 
-    LaunchedEffect(error){
-        if (firebaseUser!=null){
+    LaunchedEffect(error) {
+        if (firebaseUser != null) {
             loginNavHostController.navigate(Routes.BottomNav.routes) {
                 popUpTo(loginNavHostController.graph.startDestinationId)
                 launchSingleTop = true
@@ -66,7 +66,7 @@ fun Login(loginNavHostController: NavHostController) {
     }
 
     error.let {
-        Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
     }
 
     var email: String by remember {
@@ -115,11 +115,11 @@ fun Login(loginNavHostController: NavHostController) {
         Box(modifier = Modifier.height(16.dp))
 
         ElevatedButton(onClick = {
-        if (email.isEmpty()||password.isEmpty()){
-            Toast.makeText(context,"Please fill all details", Toast.LENGTH_LONG).show()
-        }else{
-            authViewModel.login(email, password,context)
-        }
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(context, "Please fill all details", Toast.LENGTH_LONG).show()
+            } else {
+                authViewModel.login(email, password, context)
+            }
 
         }, modifier = Modifier.fillMaxWidth()) {
             Text(
@@ -134,7 +134,7 @@ fun Login(loginNavHostController: NavHostController) {
         Box(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = {
-            loginNavHostController.navigate(Routes.Register.routes){
+            loginNavHostController.navigate(Routes.Register.routes) {
                 popUpTo(loginNavHostController.graph.startDestinationId)
                 launchSingleTop = true
             }
@@ -148,10 +148,4 @@ fun Login(loginNavHostController: NavHostController) {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginView() {
-    //Login()
 }

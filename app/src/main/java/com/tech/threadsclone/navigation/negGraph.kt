@@ -16,49 +16,49 @@ import com.tech.threadsclone.screens.Search
 import com.tech.threadsclone.screens.Splash
 
 @Composable
-fun NavGraph(navController: NavHostController){
+fun NavGraph(navController: NavHostController) {
 
-    NavHost(navController = navController, startDestination = Routes.Splash.routes){
+    NavHost(navController = navController, startDestination = Routes.Splash.routes) {
 
-        composable(Routes.Splash.routes){
+        composable(Routes.Splash.routes) {
             Splash(navController)
         }
 
-        composable(Routes.Home.routes){
+        composable(Routes.Home.routes) {
             Home(navController)
         }
 
-        composable(Routes.AddThreads.routes){
+        composable(Routes.AddThreads.routes) {
             AddThreads(navController)
         }
 
-        composable(Routes.Notification.routes){
+        composable(Routes.Notification.routes) {
             Notification()
         }
 
-        composable(Routes.BottomNav.routes){
+        composable(Routes.BottomNav.routes) {
             BottomNav(navController)
         }
 
-        composable(Routes.Profile.routes){
+        composable(Routes.Profile.routes) {
             Profile(navController)
         }
 
-        composable(Routes.Search.routes){
+        composable(Routes.Search.routes) {
             Search(navController)
         }
 
-        composable(Routes.Login.routes){
+        composable(Routes.Login.routes) {
             Login(navController)
         }
 
-        composable(Routes.Register.routes){
+        composable(Routes.Register.routes) {
             Register(navController)
         }
 
-        composable(Routes.OtherUsers.routes){
-            val data:String? = it.arguments!!.getString("data")
-            OtherUsers(navController,data!!)
+        composable(Routes.OtherUsers.routes) {
+            val data: String? = it.arguments!!.getString("data")
+            OtherUsers(navController, data!!)
         }
     }
 }

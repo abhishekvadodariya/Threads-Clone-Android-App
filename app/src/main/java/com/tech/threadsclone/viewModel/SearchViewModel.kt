@@ -34,11 +34,11 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-    private fun fetchUsers(onResult: (List<UserModel>) -> Unit){
-        users.addValueEventListener(object : ValueEventListener{
+    private fun fetchUsers(onResult: (List<UserModel>) -> Unit) {
+        users.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val result = mutableListOf<UserModel>()
-                for (threadsSnapshot in snapshot.children){
+                for (threadsSnapshot in snapshot.children) {
                     val user = threadsSnapshot.getValue(UserModel::class.java)
                     result.add(user!!)
                 }
@@ -52,9 +52,9 @@ class SearchViewModel : ViewModel() {
         })
     }
 
-    fun fetchUserFromThreads(thread: ThreadModel, onResult:(UserModel) -> Unit){
+    fun fetchUserFromThreads(thread: ThreadModel, onResult: (UserModel) -> Unit) {
         fdb.getReference("users").child(thread.userId)
-            .addListenerForSingleValueEvent(object : ValueEventListener{
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(UserModel::class.java)
                     user?.let { onResult }
@@ -63,8 +63,6 @@ class SearchViewModel : ViewModel() {
                 override fun onCancelled(error: DatabaseError) {
 
                 }
-
             })
     }
-
 }

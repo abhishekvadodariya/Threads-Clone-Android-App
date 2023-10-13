@@ -44,8 +44,9 @@ fun UserItem(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp).clickable {
-                    val routes = Routes.OtherUsers.routes.replace("{data}",users.uid)
+                .padding(16.dp)
+                .clickable {
+                    val routes = Routes.OtherUsers.routes.replace("{data}", users.uid)
                     threadItemNavHostController.navigate(routes)
                 }
         ) {

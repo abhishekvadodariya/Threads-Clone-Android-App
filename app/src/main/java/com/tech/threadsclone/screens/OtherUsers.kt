@@ -175,5 +175,4 @@ fun OtherUsers(otherUserNavHostController: NavHostController, uid: String) {
             }
         }
     }
-
 }

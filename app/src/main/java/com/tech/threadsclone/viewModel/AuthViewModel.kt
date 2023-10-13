@@ -42,14 +42,14 @@ class AuthViewModel : ViewModel() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     _firebaseUser.postValue(auth.currentUser)
-                    getData(auth.currentUser!!.uid,context)
+                    getData(auth.currentUser!!.uid, context)
                 } else {
                     _error.postValue("Something went wrong.")
                 }
             }
     }
 
-    private fun getData(uid: String,context: Context) {
+    private fun getData(uid: String, context: Context) {
         userRef.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userData = snapshot.getValue(UserModel::class.java)

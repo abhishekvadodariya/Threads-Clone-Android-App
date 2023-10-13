@@ -49,6 +49,4 @@ fun Splash(splashNavHostController: NavHostController) {
                 launchSingleTop = true
             }
     }
-
-
 }
