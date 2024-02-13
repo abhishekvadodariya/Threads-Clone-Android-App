@@ -53,7 +53,7 @@ fun UserItem(
             val (userImage, userName, date, time, title, image) = createRefs()
 
             Image(painter = rememberAsyncImagePainter(model = users.imageUrl),
-                contentDescription = "logo",
+                contentDescription = "Icon",
                 modifier = Modifier
                     .constrainAs(userImage) {
                         top.linkTo(parent.top)
